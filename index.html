@@ -34,7 +34,7 @@
                         :class="{ active: currentView === 'year' && currentYear === year }"
                         @click="currentYear = year; currentView = 'year'">
                         {{ year }}
-                        <span v-if="year === latestYear" class="badge">Current</span>
+                        <span v-if="year === latestYear" class="badge">Güncel</span>
                     </button>
                     <button class="tab-btn" :class="{ active: currentView === 'graph' }" @click="currentView = 'graph'">
                         <i class="fa-solid fa-diagram-project"></i> Eşyazarlık ağı
@@ -48,6 +48,25 @@
             <!-- Background Info Section -->
             <section class="card info-section fade-in">
                 <h2><i class="fa-solid fa-circle-info"></i> Etkinlik Detayları</h2>
+                <!-- Event Top Header -->
+                <div class="info-top-row" v-if="currentData.eventName">
+                    <div class="info-event-text">
+                        <i class="fa-solid fa-link"></i>
+                        <div>
+                            <p>
+                                <a :href="currentData.eventUrl" target="_blank"
+                                    style="color: var(--primary-color); text-decoration: none; font-size: 1.1rem; font-weight: 500;">
+                                    {{ currentData.eventName }} <i class="fa-solid fa-arrow-up-right-from-square"
+                                        style="font-size: 0.7em; margin-left: 4px;"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="info-event-logo" v-if="currentData.eventLogo">
+                        <img :src="currentData.eventLogo" alt="Event Logo" />
+                    </div>
+                </div>
+
                 <div class="info-grid">
                     <div class="info-item">
                         <i class="fa-solid fa-location-dot"></i>
@@ -167,7 +186,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <h2 style="margin: 0;"><i class="fa-solid fa-diagram-project"></i> Eşyazarlık ağı</h2>
                     <div class="search-box">
-                        <input type="text" v-model="searchQuery" placeholder="Search authors..." class="form-control"
+                        <input type="text" v-model="searchQuery" placeholder="Yazar ara ..." class="form-control"
                             style="width: 250px; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color);" />
                     </div>
                 </div>

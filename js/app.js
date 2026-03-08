@@ -4,6 +4,9 @@ const { createApp, ref, computed, watch, onMounted, onUnmounted, reactive } = Vu
 // Added callForPapers, links array, abstract, and bibtex fields based on feedback.
 const workshopData = reactive({
     "2026": {
+        eventName: "34. Sinyal İşleme ve İletişim Uygulamaları Kurultayı (SİU 2026)",
+        eventUrl: "https://siu2026.pirireis.edu.tr/",
+        eventLogo: "assets/siu2026_logo.jpg",
         location: "Piri Reis Üniversitesi, İstanbul, Türkiye",
         dates: "7-10 Temmuz, 2026",
         callForPapers: "Hesaplamalı sosyal bilimler; dijital dünyamızda ardımızda bıraktığımız dijital ekmek kırıklarının insan doğasını şimdiye kadar daha önce hiç olmadığı kadar, büyük ölçekte, hassasiyette ölçümlenmesiyle ortaya çıkmıştır. Bu yeni dal disiplinler arası bir alan olup hem bilgisayar bilimlerini, hem de sosyal bilimleri kapsamaktadır. Sosyal bilimlerin konusu olan problemlerin, bilgisayar bilimlerinde kullanılan makina öğrenmesi, yapay zeka, karışık ağ analizleri gibi tekniklerin büyük veri setleri üzerinde uygulanılması ile ortaya çıkan bir alandır. \n Bu oturumun amacı hızla büyüyen hesaplamalı sosyal bilimler alanındaki yaklaşımları, teknolojileri ve bilimsel araştırmaları paylaşmaktır. Özel oturumumuz, bunlarla sınırlı olmamakla birlikte, öncelikli olarak aşağıdaki konularda yapılan çalışmalara yer verilecektir. Bu alanda kullanılan büyük veri kaynakları ve bu kaynaklar kullanılarak yapılan sosyal içerikli çalışmalar: örneğin cep telefonu kullanım verisi ile bölgesel sosyo-ekonomik tahminleme, sosyal medya paylaşımlarından nefret söylemlerinin anlaşılması, toplum hareketliliğinin toplu taşıma verileri ile ölçümlenip Kovid istatistikleri ile karşılaştırılması ya da büyük dil modellerinin sosyal medyadaki konuşulan konuların anlamsal değişimi gibi örnekler olabilir. Bunun dışında, yapay zeka uygulamalarında etik ve veri güvenliği konularında yapılan çalışmalara da oturumumuzda yer vermek istemekteyiz.",
@@ -12,6 +15,9 @@ const workshopData = reactive({
         gallery: []
     },
     "2025": {
+        eventName: "33. Sinyal İşleme ve İletişim Uygulamaları Kurultayı (SİU 2025)",
+        eventUrl: "https://siu2025.isikun.edu.tr/",
+        eventLogo: "assets/siu2025_logo.png",
         location: "Işık Üniversitesi, İstanbul, Türkiye",
         dates: "25-28 Haziran, 2025",
         callForPapers: "Hesaplamalı sosyal bilimler; dijital dünyamızda ardımızda bıraktığımız dijital ekmek kırıklarının insan doğasını şimdiye kadar daha önce hiç olmadığı kadar, büyük ölçekte, hassasiyette ölçümlenmesiyle ortaya çıkmıştır. Bu yeni dal disiplinler arası bir alan olup hem bilgisayar bilimlerini, hem de sosyal bilimleri kapsamaktadır. Sosyal bilimlerin konusu olan problemlerin, bilgisayar bilimlerinde kullanılan makina öğrenmesi, yapay zeka, karışık ağ analizleri gibi tekniklerin büyük veri setleri üzerinde uygulanılması ile ortaya çıkan bir alandır. <br> Bu oturumun amacı hızla büyüyen hesaplamalı sosyal bilimler alanındaki yaklaşımları, teknolojileri ve bilimsel araştırmaları paylaşmaktır. Özel oturumumuz, bunlarla sınırlı olmamakla birlikte, öncelikli olarak aşağıdaki konularda yapılan çalışmalara yer verilecektir. Bu alanda kullanılan büyük veri kaynakları ve bu kaynaklar kullanılarak yapılan sosyal içerikli çalışmalar: örneğin cep telefonu kullanım verisi ile bölgesel sosyo-ekonomik tahminleme, sosyal medya paylaşımlarından nefret söylemlerinin anlaşılması, toplum hareketliliğinin toplu taşıma verileri ile ölçümlenip Kovid istatistikleri ile karşılaştırılması ya da büyük dil modellerinin sosyal medyadaki konuşulan konuların anlamsal değişimi gibi örnekler olabilir. Bunun dışında, yapay zeka uygulamalarında etik ve veri güvenliği konularında yapılan çalışmalara da oturumumuzda yer vermek istemekteyiz.",
@@ -65,9 +71,15 @@ const workshopData = reactive({
         ],
         gallery: [
             { url: "assets/2025-presentation-1.jpg", caption: "Paper presentation" },
+            { url: "assets/2025-presentation-2.png", caption: "Paper presentation" },
+            { url: "assets/2025-presentation-3.png", caption: "Paper presentation" },
+            { url: "assets/2025-presentation-4.png", caption: "Paper presentation" }
         ]
     },
     "2024": {
+        eventName: "32. Sinyal İşleme ve İletişim Uygulamaları Kurultayı (SİU 2024)",
+        eventUrl: "https://siu2024.tarsus.edu.tr/",
+        eventLogo: "assets/siu2024_logo.png",
         location: "Tarsus Üniversitesi, Mersin, Türkiye",
         dates: "15-18 Mayıs, 2024",
         callForPapers: "",
@@ -129,9 +141,13 @@ const workshopData = reactive({
             }
         ],
         gallery: [
+            { url: "assets/2024-group-1.jpg", caption: "Grup fotoğrafı" },
         ]
     },
     "2023": {
+        eventName: "31. Sinyal İşleme ve İletişim Uygulamaları Kurultayı (SİU 2023)",
+        eventUrl: "https://siu2023.itu.edu.tr/",
+        eventLogo: "assets/siu2023_logo.png",
         location: "İstanbul Teknik Üniversitesi, İstanbul, Türkiye",
         dates: "5-8 Temmuz, 2023",
         callForPapers: "",
@@ -230,15 +246,71 @@ const workshopData = reactive({
 
         ],
         gallery: [
+            { url: "assets/2023-group-1.jpg", caption: "Grup fotoğrafı" },
         ]
     },
     "2022": {
+        eventName: "30. Sinyal İşleme ve İletişim Uygulamaları Kurultayı (SİU 2022)",
+        eventUrl: "https://siu2022.bau.edu.tr/",
         location: "Safranbolu, Türkiye",
         dates: "15-18 Mayıs, 2022",
         callForPapers: "",
         committee: ["Dr. Didem Gündoğdu"],
         papers: [
-
+            {
+                title: "A Glimpse to the Digital Social Universe in the Times of War",
+                authors: "Uzay Çetin; Yunus Emre Gündoğmuş",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864661", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "A socioscope is the computational device that help us to examine the digital social universe. We will make a glimpse to the digital social universe in times of war with a special socioscope that we call sumsocial. For this study, we determined 3 keywords: {Putin, Ukraine, Refugee}. We collected half a million tweets with each keyword. We applied Turkish Natural Language Processing methods based on transformers. As a result we examined how the social perception of these keywords change with time. We determine which events trigger the number of the tweets related to those keywords to go up and down. We invite you to make a glimpse to the digital social universe from our own socioscope that we have created.",
+                bibtex: "@INPROCEEDINGS{9864661,\n    author={Çetin, Uzay and Gündoğmuş, Yunus Emre},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={A Glimpse to the Digital Social Universe in the Times of War}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Social networking (online);Signal processing;Transformers;Natural language processing;Social Media Analysis;Turkish Natural Language Processing;Computational Social Science;Machine Learning;Socioscope},\n    doi={10.1109/SIU55565.2022.9864661}}"
+            },
+            {
+                title: "Temporary Topic Models in Social Sciences: A Study on STM",
+                authors: "Ahmet Kurnaz; H. Akın Ünver",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864923", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "Topic models are rapidly becoming popular in social sciences. However, researchers should pay attention to some critical steps while using these models. The format and content of the textual data, language, existence of covariates, and preprocessing steps are the most crucial elements of a topic model analysis. This study inspects the effect of various datasets and preprocessing steps on Structural Topic Models (STM). Results shows that preprocessing, which depends on the research question, profoundly affects the model performance. Besides, the existence of multilingual data weakens the topic quality. Also, the algorithm performance is different among long and short texts. Last, the potential usage of covariates in the model enhances its functionality in social science.",
+                bibtex: "@INPROCEEDINGS{9864923,\n    author={Kurnaz, Ahmet and Ünver, H. Akın},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={Temporary Topic Models in Social Sciences: A Study on STM}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Analytical models;Social sciences;Signal processing algorithms;Signal processing;Media;Data models;topic models;STM;content analysis;text mining;social media},\n    doi={10.1109/SIU55565.2022.9864923}}"
+            },
+            {
+                title: "A Study on the Demography and the Locations of the Internet News Readers",
+                authors: "Mehmet Boran Göksel; Ali İhsan Güllü; Ahmet Güneş",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864889", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "With the transfer of the news sources to the internet and the traffic of the internet news sites also increase. The behavior of the users also differs from the traditional media. However, there are not enough studies regarding this topic. Another important property of internet for such studies is the availability of the real user behavior. The companies have behavior data of millions of users. These numbers cannot be reached using traditional methods and enables the true behaviors rather than opinions.The number of sociological studies using the digitally collected data is increasing in recent years. In this study, the reader habits are studied using the reader data of politics, sport, technology and magazine news categories from one of the top Turkish internet news web sites. This study is expected to provide a quantitative basis for future works.",
+                bibtex: "@INPROCEEDINGS{9864889,\n    author={Göksel, Mehmet Boran and Güllü, Ali İhsan and Güneş, Ahmet},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={A Study on the Demography and the Locations of the Internet News Readers}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Demography;Companies;Signal processing;Media;Behavioral sciences;Internet;Web sites;internet news sites;news categories;reader habits},\n    doi={10.1109/SIU55565.2022.9864889}}"
+            },
+            {
+                title: "Understanding IMF Decision-Making with Sentiment Analysis",
+                authors: "Ayça Deniz; Merih Angin; Pelin Angin",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864926", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "With the advances in information technologies, the amount of available data on web sources where people express their opinions increases continually. Sentiment analysis is one of the effective tools for decision-makers to gain insights from massive heaps of data. The field of International Organizations, which produces big data in the form of large documents, has significant potential to benefit from sentiment analysis in decision-making. In this paper, we evaluate the effectiveness of different sentiment analysis tools in classifying the sentiments of the International Monetary Fund’s (IMF) Executive Board members regarding the design of IMF programs. We introduce a novel dataset, Executive Board meeting minutes of the IMF, in which the sentences are labelled as positive, neutral, or negative. The experimental results demonstrate that sentiment classification with state-of-the-art language models yields high performance on this dataset when trained with domain-specific data.",
+                bibtex: "@INPROCEEDINGS{9864926,\n    author={Deniz, Ayça and Angin, Merih and Angin, Pelin},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={Understanding IMF Decision-Making with Sentiment Analysis}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Sentiment analysis;Analytical models;Terminology;Decision making;Training data;Organizations;Signal processing;sentiment analysis;binary classification;International Monetary Fund},\n    doi={10.1109/SIU55565.2022.9864926}}"
+            },
+            {
+                title: "Effect of Social Network and Mass Media on Turnout Rates in Italy",
+                authors: "Cansu Damla Yılmaz; Safa Nur Altuncu Kaan; Sümeyye Ağaç; Didem Gündoğdu",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864757", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "In Italy, change in the voters’ behaviours of obtaining information about politics is observed from 2001 to 2019. Particularly, a continuous decrease in the number of voters between 2006 and 2018, is achieved. This study investigates whether acquiring political information from social networks (e.g. friends and relatives) and mass media (e.g. tv and radio) is related to the decision of people to vote or not. Linear regression analysis is applied to discover the relationship between turnout rate and political means. It is found that getting informed about politics from relatives, acquaintances, political organizations, trade unions, radio and weekly magazines are not statistically meaningful to explain changes in turnout rates. Friends have an impact on turnout rates in a negative direction. Besides, getting information from tv and newspapers has a positive impact on turnout rates. It is also observed that mass media is more effective than social networks on turnout rates.",
+                bibtex: "@INPROCEEDINGS{9864757,\n    author={Yılmaz, Cansu Damla and Kaan, Safa Nur Altuncu and Ağaç, Sümeyye and Gündoğdu, Didem},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={Effect of Social Network and Mass Media on Turnout Rates in Italy}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={TV;Social networking (online);Industrial relations;Linear regression;Entertainment industry;Organizations;Media;linear regression;statistics;social network;mass media;Italian politics;turnout rate},\n    doi={10.1109/SIU55565.2022.9864757}}"
+            },
+            {
+                title: "Temporal and spatial analysis of indicators on segregation of Syrian refugees in Turkey with mobile phone data",
+                authors: "Bilgeçağ Aydoğdu; Betül Ahat; Albert Ali Salah; Tuba Bircan",
+                links: [
+                    { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU55565.2022.9864756", icon: "fa-solid fa-building-columns" }
+                ],
+                abstract: "Measuring and monitoring immigrant integration is important for evidence based policy making. Mobile data proposes a valuable opportunity for developing fine grained indicators of segregation and integration of sub-populations. Due to privacy and ethical reasons, mobile phone data is rarely shared with researchers. In this study, we use anonymous and aggregated data sets prepared using mobile positioning data (XDR) collected by Turkcell throughout 2020 with the purpose of calculating different indicators of segregation for refugees in order to understand the temporal and spatial variation of these indicators. In this study, isolation index and dissimilarity index were calculated and compared in terms of their measure of migrant segregation.",
+                bibtex: "@INPROCEEDINGS{9864756,\n    author={Aydoğdu, Bilgeçağ and Ahat, Betül and Ali Salah, Albert and Bircan, Tuba},\n    booktitle={2022 30th Signal Processing and Communications Applications Conference (SIU)}, \n    title={Temporal and spatial analysis of indicators on segregation of Syrian refugees in Turkey with mobile phone data}, \n    year={2022},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Ethics;Data privacy;Social sciences;Signal processing;Mobile handsets;Indexes;Monitoring;Mobile data;Indicators;Migration;Segregation;Computational Social Science},\n    doi={10.1109/SIU55565.2022.9864756}}"
+            }
         ],
         gallery: [
         ]
@@ -383,6 +455,31 @@ const app = createApp({
         const resetZoomHandler = ref(() => { });
         const searchQuery = ref("");
 
+        const getEditDistance = (a, b) => {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+            const matrix = [];
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+                        );
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        };
+
         const normalizeName = (name) => {
             const charMap = {
                 'ç': 'c', 'Ç': 'C',
@@ -392,13 +489,37 @@ const app = createApp({
                 'ş': 's', 'Ş': 'S',
                 'ü': 'u', 'Ü': 'U'
             };
-            return String(name).trim().replace(/[çÇğĞıİöÖşŞüÜ]/g, match => charMap[match]).toLowerCase();
+            return String(name).trim()
+                .replace(/[çÇğĞıİöÖşŞüÜ]/g, match => charMap[match])
+                .replace(/[\.\-]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase();
         };
 
         const generateGraphData = () => {
             const nodesMap = {};
             const linksMap = {};
             const authorPapersMap = {};
+            const canonicalNames = [];
+
+            const getCanonicalName = (normName, rawName) => {
+                for (let canon of canonicalNames) {
+                    const dist = getEditDistance(canon.norm, normName);
+                    const maxLen = Math.max(canon.norm.length, normName.length);
+                    if ((dist <= 2 && maxLen > 8) || (dist <= 1 && maxLen > 4)) {
+                        return canon.norm;
+                    }
+                    if (canon.norm.includes(normName) || normName.includes(canon.norm)) {
+                        const lenDiff = Math.abs(canon.norm.length - normName.length);
+                        if (lenDiff <= 3) {
+                            return canon.norm;
+                        }
+                    }
+                }
+                canonicalNames.push({ norm: normName, raw: rawName });
+                return normName;
+            };
 
             Object.entries(workshopData).forEach(([year, data]) => {
                 if (data.papers) {
@@ -410,15 +531,25 @@ const app = createApp({
 
                         rawAuthors.forEach(rawName => {
                             const normName = normalizeName(rawName);
-                            if (!nodesMap[normName]) {
-                                nodesMap[normName] = { id: normName, displayName: rawName, degree: 0 };
-                            }
-                            paperAuthors.push(normName);
+                            const canonicalNorm = getCanonicalName(normName, rawName);
 
-                            if (!authorPapersMap[normName]) {
-                                authorPapersMap[normName] = [];
+                            if (!nodesMap[canonicalNorm]) {
+                                const canonEntry = canonicalNames.find(c => c.norm === canonicalNorm);
+                                nodesMap[canonicalNorm] = { id: canonicalNorm, displayName: canonEntry ? canonEntry.raw : rawName, degree: 0 };
                             }
-                            authorPapersMap[normName].push({ ...paper, year });
+
+                            if (!paperAuthors.includes(canonicalNorm)) {
+                                paperAuthors.push(canonicalNorm);
+                            }
+
+                            if (!authorPapersMap[canonicalNorm]) {
+                                authorPapersMap[canonicalNorm] = [];
+                            }
+
+                            const alreadyAdded = authorPapersMap[canonicalNorm].some(p => p.title === paper.title);
+                            if (!alreadyAdded) {
+                                authorPapersMap[canonicalNorm].push({ ...paper, year });
+                            }
                         });
 
                         for (let i = 0; i < paperAuthors.length; i++) {
@@ -486,13 +617,19 @@ const app = createApp({
                 resetZoomHandler.value();
             });
 
+            const getStrokeWidth = (val) => {
+                if (val === 1) return 1.5;
+                if (val === 2) return 6.5;
+                return 15;
+            };
+
             const link = g.append("g")
                 .selectAll("line")
                 .data(links)
                 .join("line")
                 .attr("stroke", "#94a3b8")
-                .attr("stroke-opacity", 0.6)
-                .attr("stroke-width", d => Math.sqrt(d.value));
+                .attr("stroke-opacity", d => Math.min(0.95, 0.3 + (d.value * 0.25)))
+                .attr("stroke-width", d => getStrokeWidth(d.value));
 
             const node = g.append("g")
                 .selectAll("circle")
