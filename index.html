@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
@@ -29,20 +31,23 @@
             <nav class="tabs-nav">
                 <div class="tabs-container">
                     <button v-for="year in sortedYears" :key="year" class="tab-btn"
-                        :class="{ active: currentYear === year }" @click="currentYear = year">
+                        :class="{ active: currentView === 'year' && currentYear === year }"
+                        @click="currentYear = year; currentView = 'year'">
                         {{ year }}
-                        <span v-if="year === latestYear" class="badge">Güncel</span>
+                        <span v-if="year === latestYear" class="badge">Current</span>
+                    </button>
+                    <button class="tab-btn" :class="{ active: currentView === 'graph' }" @click="currentView = 'graph'">
+                        <i class="fa-solid fa-diagram-project"></i> Eşyazarlık ağı
                     </button>
                 </div>
             </nav>
         </header>
 
         <!-- Main Content Area -->
-        <main class="content-wrapper" v-if="currentData">
+        <main class="content-wrapper" v-if="currentView === 'year' && currentData">
             <!-- Background Info Section -->
             <section class="card info-section fade-in">
                 <h2><i class="fa-solid fa-circle-info"></i> Etkinlik Detayları</h2>
-
                 <div class="info-grid">
                     <div class="info-item">
                         <i class="fa-solid fa-location-dot"></i>
@@ -71,7 +76,7 @@
             <!-- Call for Papers Section -->
             <section class="card cfp-section fade-in" v-if="currentData.callForPapers">
                 <div class="cfp-header" @click="toggleCFP">
-                    <h2><i class="fa-solid fa-bullhorn"></i> Makale Çağrısı</h2>
+                    <h2><i class="fa-solid fa-bullhorn"></i> Bildiri Çağrısı</h2>
                     <button class="accordion-toggle"><i class="fa-solid"
                             :class="cfpOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i></button>
                 </div>
@@ -83,9 +88,9 @@
 
             <!-- Accepted Papers Section -->
             <section class="card papers-section fade-in">
-                <h2><i class="fa-solid fa-book-open"></i> Kabul olan makaleler</h2>
+                <h2><i class="fa-solid fa-book-open"></i> Kabul Edilen Bildiriler</h2>
                 <div v-if="currentData.papers.length === 0" class="empty-state">
-                    <p>Bu yıl için kabul olan çalışmalar henüz duyurulmadı.</p>
+                    <p>Bildiriler henüz açıklanmamıştır.</p>
                 </div>
                 <div v-else class="papers-list">
                     <div v-for="(paper, index) in currentData.papers" :key="index" class="paper-item-card">
@@ -109,7 +114,7 @@
                             <button v-if="paper.abstract" class="btn btn-ghost"
                                 :class="{ 'active': isPaperStateOpen(currentYear, index, 'abstract') }"
                                 @click="togglePaperState(currentYear, index, 'abstract')">
-                                Özet <i class="fa-solid"
+                                Makale özeti <i class="fa-solid"
                                     :class="isPaperStateOpen(currentYear, index, 'abstract') ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                             </button>
 
@@ -124,7 +129,7 @@
 
                         <!-- Accordion Contents -->
                         <div class="paper-accordion-content" v-show="isPaperStateOpen(currentYear, index, 'abstract')">
-                            <strong>Özet:</strong>
+                            <strong>Makale özeti:</strong>
                             <p>{{ paper.abstract }}</p>
                         </div>
 
@@ -145,12 +150,51 @@
 
             <!-- Gallery Section -->
             <section class="card gallery-section fade-in" v-if="currentData.gallery && currentData.gallery.length > 0">
-                <h2><i class="fa-solid fa-images"></i> Etkinlik Resimleri</h2>
+                <h2><i class="fa-solid fa-images"></i> Event Gallery</h2>
                 <div class="gallery-grid">
                     <div v-for="(img, index) in currentData.gallery" :key="index" class="gallery-item"
                         @click="openLightbox(index)">
                         <img :src="img.thumb || img.url" :alt="`Gallery image ${index + 1}`" loading="lazy">
                         <div class="gallery-overlay"><i class="fa-solid fa-expand"></i></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Graph Area -->
+        <main class="content-wrapper" v-if="currentView === 'graph'" v-cloak>
+            <section class="card graph-section fade-in">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="margin: 0;"><i class="fa-solid fa-diagram-project"></i> Eşyazarlık ağı</h2>
+                    <div class="search-box">
+                        <input type="text" v-model="searchQuery" placeholder="Search authors..." class="form-control"
+                            style="width: 250px; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color);" />
+                    </div>
+                </div>
+                <div class="graph-container">
+                    <svg id="author-graph" width="100%" height="600"></svg>
+                    <div id="graph-tooltip" class="graph-tooltip"
+                        style="opacity: 0; position: absolute; pointer-events: none;"></div>
+                </div>
+
+                <div v-if="selectedAuthor" class="selected-author-panel fade-in mt-4">
+                    <h3>Makaleler: {{ selectedAuthor.name }}</h3>
+                    <div class="papers-list mt-4">
+                        <div v-for="(paper, index) in selectedAuthorPapers" :key="index" class="paper-item-card">
+                            <div class="paper-header">
+                                <div class="paper-details">
+                                    <h4>{{ paper.title }}</h4>
+                                    <p class="authors">{{ paper.authors }}</p>
+                                    <span class="badge year-badge">{{ paper.year }}</span>
+                                </div>
+                            </div>
+                            <div class="paper-controls" style="margin-top: 10px;">
+                                <a v-for="link in paper.links" :key="link.text" :href="link.url" target="_blank"
+                                    class="btn btn-outline">
+                                    <i v-if="link.icon" :class="link.icon"></i> {{ link.text }}
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

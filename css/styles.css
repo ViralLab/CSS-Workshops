@@ -639,3 +639,52 @@ body {
         font-size: 1.5rem;
     }
 }
+
+/* Graph Section */
+.graph-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.zoom-reset-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 9;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+}
+
+.graph-tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 8px 12px;
+    font: 14px var(--font-family);
+    background: var(--text-main);
+    color: var(--bg-color);
+    border: 0;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: var(--shadow-md);
+    white-space: nowrap;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.year-badge {
+    background-color: #dbeafe;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    display: inline-block;
+}

@@ -135,7 +135,7 @@ const workshopData = reactive({
         location: "İstanbul Teknik Üniversitesi, İstanbul, Türkiye",
         dates: "5-8 Temmuz, 2023",
         callForPapers: "",
-        committee: ["Dr. Didem Gündoğdu",  "Prof. Berrin Yanıkoğlu"],
+        committee: ["Dr. Didem Gündoğdu", "Prof. Berrin Yanıkoğlu"],
         papers: [
             {
                 title: "Who Follows Turkish Presidential Candidates in 2023 Elections?",
@@ -227,7 +227,7 @@ const workshopData = reactive({
                 abstract: "Hate speech spread on social media can strongly affect people and societies, especially when it targets a specific group of people in terms of religion, culture, or a specific social situation, such as refugees. For this reason, the detection and elimination of hate speech in social networks have attracted the attention of natural language processing researchers in recent years. A competition is organized to benchmark progress in Turkish hate speech recognition, within SIU2023 Computational Social Sciences special session, with four different tasks. A total of 20 teams registered for the competition, while eight teams submitted results at the end. The details of the winning models and their results are explained in this paper.",
                 bibtex: "@INPROCEEDINGS{10223800,\n    author={Arın, İnanç and Işık, Zeynep and Kutal, Seçilay and Dehghan, Somaiyeh and Özgür, Arzucan and Yanikoğlu, Berrin},\n    booktitle={2023 31st Signal Processing and Communications Applications Conference (SIU)}, \n    title={SIU2023-NST - Hate Speech Detection Contest}, \n    year={2023},\n    volume={},\n    number={},\n    pages={1-4},\n    keywords={Adaptation models;Social networking (online);Hate speech;Task analysis;Voice activity detection;Transformers;Speech recognition;Hate Speech Detection;Natural Language Processing;Deep Learning;Turkish Language},\n    doi={10.1109/SIU59756.2023.10223800}}"
             }
-            
+
         ],
         gallery: [
         ]
@@ -238,7 +238,7 @@ const workshopData = reactive({
         callForPapers: "",
         committee: ["Dr. Didem Gündoğdu"],
         papers: [
-            
+
         ],
         gallery: [
         ]
@@ -258,6 +258,7 @@ const app = createApp({
 
         const latestYear = computed(() => sortedYears.value[0]);
         const currentYear = ref(latestYear.value);
+        const currentView = ref('year'); // 'year' or 'graph'
 
         const currentData = computed(() => {
             return workshopData[currentYear.value];
@@ -377,11 +378,224 @@ const app = createApp({
             });
         });
 
+        const selectedAuthor = ref(null);
+        const selectedAuthorPapers = ref([]);
+        const resetZoomHandler = ref(() => { });
+        const searchQuery = ref("");
+
+        const normalizeName = (name) => {
+            const charMap = {
+                'ç': 'c', 'Ç': 'C',
+                'ğ': 'g', 'Ğ': 'G',
+                'ı': 'i', 'İ': 'I',
+                'ö': 'o', 'Ö': 'O',
+                'ş': 's', 'Ş': 'S',
+                'ü': 'u', 'Ü': 'U'
+            };
+            return String(name).trim().replace(/[çÇğĞıİöÖşŞüÜ]/g, match => charMap[match]).toLowerCase();
+        };
+
+        const generateGraphData = () => {
+            const nodesMap = {};
+            const linksMap = {};
+            const authorPapersMap = {};
+
+            Object.entries(workshopData).forEach(([year, data]) => {
+                if (data.papers) {
+                    data.papers.forEach(paper => {
+                        if (!paper.authors) return;
+
+                        const rawAuthors = paper.authors.split(';').map(a => a.trim()).filter(a => a.length > 0);
+                        const paperAuthors = [];
+
+                        rawAuthors.forEach(rawName => {
+                            const normName = normalizeName(rawName);
+                            if (!nodesMap[normName]) {
+                                nodesMap[normName] = { id: normName, displayName: rawName, degree: 0 };
+                            }
+                            paperAuthors.push(normName);
+
+                            if (!authorPapersMap[normName]) {
+                                authorPapersMap[normName] = [];
+                            }
+                            authorPapersMap[normName].push({ ...paper, year });
+                        });
+
+                        for (let i = 0; i < paperAuthors.length; i++) {
+                            for (let j = i + 1; j < paperAuthors.length; j++) {
+                                const source = paperAuthors[i];
+                                const target = paperAuthors[j];
+                                const linkKey = source < target ? `${source}-${target}` : `${target}-${source}`;
+
+                                if (!linksMap[linkKey]) {
+                                    linksMap[linkKey] = {
+                                        source: source < target ? source : target,
+                                        target: source < target ? target : source,
+                                        value: 1
+                                    };
+                                } else {
+                                    linksMap[linkKey].value += 1;
+                                }
+
+                                nodesMap[source].degree += 1;
+                                nodesMap[target].degree += 1;
+                            }
+                        }
+                    });
+                }
+            });
+
+            return { nodes: Object.values(nodesMap), links: Object.values(linksMap), authorPapersMap };
+        };
+
+        const renderGraph = () => {
+            const { nodes, links, authorPapersMap } = generateGraphData();
+            const svg = d3.select("#author-graph");
+            if (svg.empty()) return;
+            svg.selectAll("*").remove();
+
+            const nodeEl = svg.node();
+            const width = nodeEl.getBoundingClientRect().width || 800;
+            const height = nodeEl.getBoundingClientRect().height || 600;
+
+            const g = svg.append("g");
+            const zoom = d3.zoom().on("zoom", (e) => g.attr("transform", e.transform));
+            svg.call(zoom);
+
+            resetZoomHandler.value = () => {
+                const nodeBBox = g.node().getBBox();
+                const scale = Math.min(1.5, 0.9 / Math.max(nodeBBox.width / width, nodeBBox.height / height));
+                const translate = [
+                    width / 2 - scale * (nodeBBox.x + nodeBBox.width / 2),
+                    height / 2 - scale * (nodeBBox.y + nodeBBox.height / 2)
+                ];
+                svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
+            };
+
+            const nodeRadius = d => Math.sqrt(authorPapersMap[d.id].length) * 6 + 3;
+
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(80))
+                .force("charge", d3.forceManyBody().strength(-150))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("x", d3.forceX(width / 2).strength(0.06))
+                .force("y", d3.forceY(height / 2).strength(0.06))
+                .force("collide", d3.forceCollide().radius(d => nodeRadius(d) + 2));
+
+            simulation.on("end", () => {
+                resetZoomHandler.value();
+            });
+
+            const link = g.append("g")
+                .selectAll("line")
+                .data(links)
+                .join("line")
+                .attr("stroke", "#94a3b8")
+                .attr("stroke-opacity", 0.6)
+                .attr("stroke-width", d => Math.sqrt(d.value));
+
+            const node = g.append("g")
+                .selectAll("circle")
+                .data(nodes)
+                .join("circle")
+                .attr("r", nodeRadius)
+                .attr("fill", "#3b82f6")
+                .attr("stroke", "#ffffff")
+                .attr("stroke-width", 1.5)
+                .call(d3.drag()
+                    .on("start", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x; d.fy = d.y;
+                    })
+                    .on("drag", (event, d) => {
+                        d.fx = event.x; d.fy = event.y;
+                    })
+                    .on("end", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null; d.fy = null;
+                    }));
+
+            const text = g.append("g")
+                .selectAll("text")
+                .data(nodes)
+                .join("text")
+                .text(d => d.displayName)
+                .attr("text-anchor", "middle")
+                .attr("dy", d => -nodeRadius(d) - 4)
+                .attr("fill", "#0f172a")
+                .style("font-size", "12px")
+                .style("font-weight", "600")
+                .style("pointer-events", "none")
+                .style("opacity", 0);
+
+            node.on("mouseover", (event, d) => {
+                text.filter(t => t.id === d.id).style("opacity", 1);
+                d3.select(event.currentTarget).attr("fill", "#2563eb").attr("stroke", "#0f172a");
+            })
+                .on("mouseout", (event, d) => {
+                    const query = searchQuery.value.toLowerCase().trim();
+                    const matchesSearch = query && (d.displayName.toLowerCase().includes(query) || d.id.includes(query));
+                    if (!matchesSearch) {
+                        text.filter(t => t.id === d.id).style("opacity", 0);
+                    }
+                    d3.select(event.currentTarget).attr("fill", "#3b82f6").attr("stroke", "#ffffff");
+                })
+                .on("click", (event, d) => {
+                    selectedAuthor.value = { id: d.id, name: d.displayName };
+                    selectedAuthorPapers.value = authorPapersMap[d.id];
+                });
+
+            simulation.on("tick", () => {
+                link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+                node.attr("cx", d => d.x).attr("cy", d => d.y);
+                text.attr("x", d => d.x).attr("y", d => d.y);
+            });
+
+            // Initialization trigger for search
+            updateSearchHighlight();
+        };
+
+        const updateSearchHighlight = () => {
+            const svg = d3.select("#author-graph");
+            if (svg.empty()) return;
+
+            const query = searchQuery.value.toLowerCase().trim();
+            if (!query) {
+                svg.selectAll("circle").attr("opacity", 1);
+                svg.selectAll("line").attr("stroke-opacity", 0.6);
+                svg.selectAll("text").style("opacity", 0);
+                return;
+            }
+
+            svg.selectAll("circle").attr("opacity", d =>
+                (d.displayName.toLowerCase().includes(query) || d.id.includes(query)) ? 1 : 0.1
+            );
+            svg.selectAll("line").attr("stroke-opacity", 0.05);
+            svg.selectAll("text").style("opacity", d =>
+                (d.displayName.toLowerCase().includes(query) || d.id.includes(query)) ? 1 : 0
+            );
+        };
+
+        watch(searchQuery, updateSearchHighlight);
+
+        const { nextTick } = Vue;
+        watch(currentView, async (newView) => {
+            if (newView === 'graph') {
+                await nextTick();
+                renderGraph();
+            } else {
+                selectedAuthor.value = null;
+                selectedAuthorPapers.value = [];
+            }
+        });
+
         return {
             workshopName,
             sortedYears,
             latestYear,
             currentYear,
+            currentView,
             currentData,
             cfpOpen,
             toggleCFP,
@@ -394,7 +608,11 @@ const app = createApp({
             nextImage,
             prevImage,
             currentLightboxImage,
-            hasMultipleImages
+            hasMultipleImages,
+            selectedAuthor,
+            selectedAuthorPapers,
+            resetZoomHandler,
+            searchQuery
         };
     }
 });
