@@ -169,7 +169,7 @@
 
             <!-- Gallery Section -->
             <section class="card gallery-section fade-in" v-if="currentData.gallery && currentData.gallery.length > 0">
-                <h2><i class="fa-solid fa-images"></i> Event Gallery</h2>
+                <h2><i class="fa-solid fa-images"></i> Etkinlik Fotoğrafları</h2>
                 <div class="gallery-grid">
                     <div v-for="(img, index) in currentData.gallery" :key="index" class="gallery-item"
                         @click="openLightbox(index)">
