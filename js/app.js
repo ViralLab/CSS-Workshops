@@ -25,7 +25,7 @@ const workshopData = reactive({
         papers: [
             {
                 title: "Prediction of internal migration after an earthquake with call detail records",
-                authors: "Erdem Şahin; Yusuf Sezer Car; Arda Astam; Didem Gündoğdu",
+                authors: "Jingkang Hu; Bilgeçağ Aydoğdu; Subhi Güneş; Semiha Nur Yağcıklı; Albert Ali Salah",
                 links: [
                     { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU66497.2025.11112312", icon: "fa-solid fa-building-columns" }
                 ],
@@ -34,7 +34,7 @@ const workshopData = reactive({
             },
             {
                 title: "Digital Thorns: The Rise of Sarcasm as Political Protest in Türkiye",
-                authors: "Jingkang Hu; Bilgeçağ Aydoğdu; Subhi Güneş; Semiha Nur Yağcıklı; Albert Ali Salah",
+                authors: "Erdem Şahin; Yusuf Sezer Car; Arda Astam; Didem Gündoğdu",
                 links: [
                     { text: "IEEE Xplore", url: "https://doi.org/10.1109/SIU66497.2025.11111955", icon: "fa-solid fa-building-columns" }
                 ],
